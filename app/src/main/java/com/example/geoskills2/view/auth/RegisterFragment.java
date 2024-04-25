@@ -25,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 import com.muratozturk.click_shrink_effect.ClickShrinkEffectKt;
 
-public class RegisterFragment extends Fragment implements LoadingAlert {
+public class RegisterFragment extends Fragment{
     private AuthViewModel viewModel;
     private Sounds sounds;
     private FragmentRegisterBinding binding;
@@ -89,7 +89,7 @@ public class RegisterFragment extends Fragment implements LoadingAlert {
             return;
         }
         viewModel.registerUser(new User(name, email, 0,profileSelected), senha);
-        AlertDialog alertDialog = makeLoadingAlert();
+        AlertDialog alertDialog = viewModel.makeLoadingAlert(requireContext());
         alertDialog.show();
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), new Observer<FirebaseUser>() {
             @Override
@@ -102,13 +102,5 @@ public class RegisterFragment extends Fragment implements LoadingAlert {
         });
     }
 
-    @Override
-    public AlertDialog makeLoadingAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        View view = LayoutInflater.from(requireContext()).inflate(R.layout.loading_alert, null);
-        AlertDialog alertDialog = builder.setView(view).create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        return alertDialog;
-    }
+
 }

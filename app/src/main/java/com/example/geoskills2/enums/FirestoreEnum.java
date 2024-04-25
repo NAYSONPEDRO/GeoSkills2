@@ -4,7 +4,8 @@ public enum FirestoreEnum {
     COLECTION_USERS("users"),
     NAME("name"),
     EMAIL("email"),
-    POINTS("points");
+    POINTS("points"),
+    PROFILE_SELECTED("profileSelected");
 
     private final String value;
 

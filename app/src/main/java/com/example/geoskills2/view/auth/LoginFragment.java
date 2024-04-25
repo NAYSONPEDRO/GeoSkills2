@@ -20,14 +20,13 @@ import com.example.geoskills2.R;
 import com.example.geoskills2.databinding.FragmentLoginBinding;
 import com.example.geoskills2.ultil.Sounds;
 import com.example.geoskills2.viewmodel.AuthViewModel;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 import com.muratozturk.click_shrink_effect.ClickShrinkEffectKt;
 
 import org.aviran.cookiebar2.CookieBar;
 
 
-public class LoginFragment extends Fragment implements LoadingAlert {
+public class LoginFragment extends Fragment{
     private AuthViewModel viewModel;
     private FragmentLoginBinding binding;
     private Sounds sounds;
@@ -73,7 +72,7 @@ public class LoginFragment extends Fragment implements LoadingAlert {
                     .setCookiePosition(CookieBar.TOP).setBackgroundColor(R.color.red).setDuration(4000).setIcon(R.drawable.ic_error).show();
             return;
         }
-        AlertDialog alertDialog = makeLoadingAlert();
+        AlertDialog alertDialog = viewModel.makeLoadingAlert(requireContext());
         viewModel.loginUser(email, password);
         alertDialog.show();
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), new Observer<FirebaseUser>() {
@@ -86,14 +85,6 @@ public class LoginFragment extends Fragment implements LoadingAlert {
             }
         });
     }
-    @Override
-    public AlertDialog makeLoadingAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        View view = LayoutInflater.from(requireContext()).inflate(R.layout.loading_alert, null);
-        AlertDialog alertDialog = builder.setView(view).create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        return alertDialog;
-    }
+
 
 }

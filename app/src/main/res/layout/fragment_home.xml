@@ -1,27 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.HomeFragment">
+    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.homeviewpager.HomeFragment">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_logout"
-        style="@style/Widget.AppCompat.Button.NoShadow"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_recover_bg"
-        android:fontFamily="@font/plumpfull"
-        android:paddingVertical="10dp"
-        android:text="Sair"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/quiz_game"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/game_item_bg"
+                android:elevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="30dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="74dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/game_quiz_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/plumpfull"
+                        android:text="Geo Quiz"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="26sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/coordeinate_game"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/game_item_bg"
+                android:elevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="30dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="74dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/game_map_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/plumpfull"
+                        android:text="Coordenadas"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="26sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/in_contruct_game"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/game_item_bg"
+                android:elevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="30dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="74dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/game_map_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/plumpfull"
+                        android:text="Coordenadas"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="26sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_start"
+            style="@style/Widget.AppCompat.Button.NoShadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/btn_login_bg"
+            android:fontFamily="@font/plumpfull"
+            android:paddingVertical="15dp"
+            android:text="COMEÇAR"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

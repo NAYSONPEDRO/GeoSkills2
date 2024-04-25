@@ -13,6 +13,16 @@ public class Sounds {
     private MediaPlayer mediaPlayer;
     private Context context;
     private int clickSoundId;
+    private int transitSoundId;
+
+    public boolean getIsMusicEnabled() {
+        return isMusicEnabled;
+    }
+
+    public boolean getIsClickSoundEnabled() {
+        return isClickSoundEnabled;
+    }
+
     private boolean isClickSoundEnabled = true;
     private boolean isMusicEnabled = true;
     private Sounds(Context context){
@@ -21,7 +31,8 @@ public class Sounds {
         AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
         soundPool = new SoundPool.Builder().setMaxStreams(2).setAudioAttributes(audioAttributes).build();
-        clickSoundId = soundPool.load(context, R.raw.click_sound, 1);
+        clickSoundId = soundPool.load(context, R.raw.click_sound_best, 1);
+        transitSoundId = soundPool.load(context, R.raw.transition_sound, 1);
 
         mediaPlayer = MediaPlayer.create(context, R.raw.matue666777);
         mediaPlayer.setLooping(true);
@@ -37,7 +48,13 @@ public class Sounds {
 
     public void clickSound(){
         if(isClickSoundEnabled){
-            soundPool.play(clickSoundId,.1f,1f,1,0,1);
+            soundPool.play(clickSoundId,1f,1f,1,0,1);
+        }
+    }
+
+    public void transitSound(){
+        if(isClickSoundEnabled){
+            soundPool.play(transitSoundId,1f,1f,1,0,1);
         }
     }
 
@@ -55,4 +72,7 @@ public class Sounds {
         }
     }
 
+    // hint pra eu mesmo, colocar o som de click no construtor do fragment e não no addOnclickListener
+
 }
+

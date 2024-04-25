@@ -5,15 +5,15 @@ public class User {
     private String email;
     private int points;
 
-    private String uiid;
+    private String uuid;
     private int profileSelected;
 
-    public String getUiid() {
-        return uiid;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setUiid(String uiid) {
-        this.uiid = uiid;
+    public void setUuid(String uiid) {
+        this.uuid = uiid;
     }
 
     public String getName() {
@@ -50,26 +50,28 @@ public class User {
         this.email = email;
         this.points = points;
     }
-    public User(String name, String email, int points,String uiid) {
+    public User(String name, String email, int points,String uuid) {
         this.name = name;
         this.email = email;
         this.points = points;
-        this.uiid = uiid;
+        this.uuid = uuid;
     }
-    public User(String name, String email, int points,String uiid, int profileSelected) {
+    public User(String name, String email, int points, String uuid, int profileSelected) {
         this.name = name;
         this.email = email;
         this.points = points;
-        this.uiid = uiid;
+        this.uuid = uuid;
         this.profileSelected = profileSelected;
     }
     public User(String name, String email, int points,int profileSelected) {
         this.name = name;
         this.email = email;
         this.points = points;
-        this.uiid = uiid;
+        this.uuid = uuid;
         this.profileSelected = profileSelected;
     }
 
-
+    public int getProfileSelected() {
+        return profileSelected;
+    }
 }

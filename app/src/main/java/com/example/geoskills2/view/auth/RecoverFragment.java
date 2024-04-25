@@ -26,7 +26,7 @@ import com.muratozturk.click_shrink_effect.ClickShrinkEffectKt;
 import org.checkerframework.checker.units.qual.A;
 
 
-public class RecoverFragment extends Fragment implements LoadingAlert{
+public class RecoverFragment extends Fragment {
     private AuthViewModel viewModel;
     private FragmentRecoverBinding binding;
     private Sounds sounds;
@@ -72,7 +72,7 @@ public class RecoverFragment extends Fragment implements LoadingAlert{
             Snackbar.make(requireView(), "Preencha o campo de e-mail", Snackbar.LENGTH_SHORT).show();
             return;
         }
-        AlertDialog alertDialog = makeLoadingAlert();
+        AlertDialog alertDialog = viewModel.makeLoadingAlert(requireContext());
         alertDialog.show();
         viewModel.recoverPassword(email);
         viewModel.getSendedEmail().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -88,13 +88,6 @@ public class RecoverFragment extends Fragment implements LoadingAlert{
     }
 
 
-    @Override
-    public AlertDialog makeLoadingAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        View view = LayoutInflater.from(requireContext()).inflate(R.layout.loading_alert, null);
-        AlertDialog alertDialog = builder.setView(view).create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        return alertDialog;
-    }
+
+
 }

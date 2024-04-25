@@ -15,9 +15,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class AuthRepository {
     private FirebaseAuth auth;
     private FirestoreRepository firestoreRepository;
-
-
     public static AuthRepository authRepository;
+
 
     private MutableLiveData<FirebaseUser> currentUser;
     private AuthRepository(){
@@ -27,7 +26,10 @@ public class AuthRepository {
         if(auth.getCurrentUser() != null)
             currentUser.setValue(auth.getCurrentUser());
     }
-
+    @NonNull
+    public String getCurrentUserId(){
+        return auth.getCurrentUser().getUid();
+    }
     public FirebaseAuth getAuth(){
         return auth;
     }
