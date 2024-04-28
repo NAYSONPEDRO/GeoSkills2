@@ -17,21 +17,28 @@ import com.example.geoskills2.R;
 import com.example.geoskills2.model.User;
 import com.example.geoskills2.repository.AuthRepository;
 import com.example.geoskills2.repository.FirestoreRepository;
+import com.example.geoskills2.view.auth.ErrorData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Objects;
+
 public class AuthViewModel extends AndroidViewModel {
-    private FirestoreRepository firestoreRepository = FirestoreRepository.getInstance();
-    private AuthRepository authRepository = AuthRepository.getInstance();
+    private final FirestoreRepository firestoreRepository = FirestoreRepository.getInstance();
+    private final AuthRepository authRepository = AuthRepository.getInstance();
 
-    private MutableLiveData<FirebaseUser> currentUserVM = new MutableLiveData<>();
+    private final MutableLiveData<FirebaseUser> currentUserVM = new MutableLiveData<>();
+    private final MutableLiveData<ErrorData> errorInLogin = new MutableLiveData<>(null);
 
-    private MutableLiveData<Boolean> sendedEmail = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> sendedEmail = new MutableLiveData<>(false);
+
 
 
     public AuthViewModel(@NonNull Application application) {
@@ -40,6 +47,8 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public void registerUser(User user, String password) {
+
+
         firestoreRepository.checkUserNameExists(user.getName(), new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -64,6 +73,7 @@ public class AuthViewModel extends AndroidViewModel {
                                             currentUserVM.postValue(authRepository.getCurrentUser().getValue());
                                         } else {
                                             Log.d("ERRO_REGISTER_USER", "Erro ao registrar usuário NO BANCO", task.getException());
+                                            errorInLogin.postValue(authRepository.errorHandling(Objects.requireNonNull(task.getException())));
                                         }
 
                                     }
@@ -84,18 +94,22 @@ public class AuthViewModel extends AndroidViewModel {
 
     }
 
-    public void loginUser(String email, String password) {
+    public ErrorData loginUser(String email, String password) {
+        final ErrorData[] errorData = new ErrorData[1];
         authRepository.loginUser(email, password, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     currentUserVM.postValue(authRepository.getAuth().getCurrentUser());
+                    errorData[0] = null;
                 } else {
                     Log.d("ERRO_LOGIN", "Erro ao fazer login", task.getException());
+                    errorData[0] = authRepository.errorHandling(Objects.requireNonNull(task.getException()));
                 }
 
             }
         });
+        return errorData[0];
     }
 
     public void recoverPassword(String email) {
@@ -120,6 +134,11 @@ public class AuthViewModel extends AndroidViewModel {
     public MutableLiveData<Boolean> getSendedEmail() {
         return sendedEmail;
     }
+
+    public MutableLiveData<ErrorData> getErrorInLogin() {
+        return errorInLogin;
+    }
+
     public String getUuid(){
         return authRepository.getCurrentUserId();
     }

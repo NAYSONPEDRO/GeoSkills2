@@ -22,8 +22,13 @@ import com.example.geoskills2.model.User;
 import com.example.geoskills2.ultil.Sounds;
 import com.example.geoskills2.viewmodel.AuthViewModel;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.muratozturk.click_shrink_effect.ClickShrinkEffectKt;
+
+import org.aviran.cookiebar2.CookieBar;
 
 public class RegisterFragment extends Fragment{
     private AuthViewModel viewModel;
@@ -84,22 +89,26 @@ public class RegisterFragment extends Fragment{
     }
 
     private void registerUser(String name, String email, String senha){
-        if(name.isEmpty() || email.isEmpty() || senha.isEmpty() || profileSelected == -1){
-            Snackbar.make(requireView(), "Preencha todos os campos", Snackbar.LENGTH_SHORT).show();
-            return;
-        }
-        viewModel.registerUser(new User(name, email, 0,profileSelected), senha);
-        AlertDialog alertDialog = viewModel.makeLoadingAlert(requireContext());
-        alertDialog.show();
-        viewModel.getCurrentUser().observe(getViewLifecycleOwner(), new Observer<FirebaseUser>() {
-            @Override
-            public void onChanged(FirebaseUser firebaseUser) {
-                if(firebaseUser != null){
-                    alertDialog.dismiss();
-                    Navigation.findNavController(requireView()).navigate(R.id.action_global_homeFragment);
-                }
+
+
+            if (name.isEmpty() || email.isEmpty() || senha.isEmpty() || profileSelected == -1) {
+                CookieBar.build(requireActivity()).setTitle("Preencha todos os campos").setMessage("Preencha todos os campos do formulário de recuperação para poder continuar")
+                        .setCookiePosition(CookieBar.TOP).setBackgroundColor(R.color.red).setDuration(4000).setIcon(R.drawable.ic_error).show();
+                return;
             }
-        });
+            viewModel.registerUser(new User(name, email, 0, profileSelected), senha);
+            AlertDialog alertDialog = viewModel.makeLoadingAlert(requireContext());
+            alertDialog.show();
+            viewModel.getCurrentUser().observe(getViewLifecycleOwner(), new Observer<FirebaseUser>() {
+                @Override
+                public void onChanged(FirebaseUser firebaseUser) {
+                    if (firebaseUser != null) {
+                        alertDialog.dismiss();
+                        Navigation.findNavController(requireView()).navigate(R.id.action_global_homeFragment);
+                    }
+                }
+            });
+
     }
 
 

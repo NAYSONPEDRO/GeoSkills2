@@ -1,5 +1,6 @@
 package com.example.geoskills2.view.slider;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -24,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainSliderFragment extends Fragment {
-    private List<Fragment> list = new ArrayList<>();
+    private final List<Fragment> list = new ArrayList<>();
     private FragmentMainSliderBinding binding;
     private Sounds sounds;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainSliderBinding.inflate(inflater, container, false);
         sounds = Sounds.getInstance(requireContext());
@@ -39,10 +40,10 @@ public class MainSliderFragment extends Fragment {
     }
 
     public void onSliderFinished() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("slider", getActivity().MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("slider", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("SLIDER_SHOWN", true);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
@@ -50,6 +51,7 @@ public class MainSliderFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
 
     public void initViewPager() {
         list.add(new SlideFirstFragment());
@@ -62,6 +64,7 @@ public class MainSliderFragment extends Fragment {
         binding.dotsIndicator.attachTo(binding.viewpager2);
 
         binding.btnSkipSlide.setOnClickListener(v -> {
+            sounds.clickSound();
             binding.viewpager2.setCurrentItem(2);
         });
         binding.btnInit.setOnClickListener(v -> {
@@ -78,9 +81,10 @@ public class MainSliderFragment extends Fragment {
                     case 0: {
                         binding.btnInit.setVisibility(View.INVISIBLE);
                         binding.arrowBackSlide.setVisibility(View.INVISIBLE);
-
+                        binding.btnSkipSlide.setVisibility(View.VISIBLE);
                         binding.arrowNextSlide.setVisibility(View.VISIBLE);
                         binding.arrowNextSlide.setOnClickListener(v -> {
+                            sounds.clickSound();
                             binding.viewpager2.setCurrentItem(1);
                         });
                     }
@@ -90,22 +94,27 @@ public class MainSliderFragment extends Fragment {
                         binding.arrowBackSlide.setVisibility(View.VISIBLE);
                         binding.arrowNextSlide.setVisibility(View.VISIBLE);
                         binding.arrowNextSlide.setOnClickListener(v -> {
+                            sounds.clickSound();
                             binding.viewpager2.setCurrentItem(2);
                         });
                         binding.arrowBackSlide.setOnClickListener(v -> {
+                            sounds.clickSound();
                             binding.viewpager2.setCurrentItem(0);
                         });
+                        binding.btnSkipSlide.setVisibility(View.VISIBLE);
                     }
                     break;
                     case 2: {
                         binding.arrowBackSlide.setOnClickListener(v -> {
+                            sounds.clickSound();
                             binding.viewpager2.setCurrentItem(1);
                         });
                         binding.arrowNextSlide.setVisibility(View.INVISIBLE);
                         binding.btnInit.setVisibility(View.VISIBLE);
-
+                        binding.btnSkipSlide.setVisibility(View.INVISIBLE);
                     }
                     break;
+
                     default: {
                         Toast.makeText(requireContext(), "Erro sei la o q", Toast.LENGTH_SHORT).show();
                     }

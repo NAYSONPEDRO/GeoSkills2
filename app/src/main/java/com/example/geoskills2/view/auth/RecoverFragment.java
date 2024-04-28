@@ -23,6 +23,7 @@ import com.example.geoskills2.viewmodel.AuthViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.muratozturk.click_shrink_effect.ClickShrinkEffectKt;
 
+import org.aviran.cookiebar2.CookieBar;
 import org.checkerframework.checker.units.qual.A;
 
 
@@ -69,7 +70,8 @@ public class RecoverFragment extends Fragment {
 
     private void recoverPassword(String email){
         if(email.isEmpty()){
-            Snackbar.make(requireView(), "Preencha o campo de e-mail", Snackbar.LENGTH_SHORT).show();
+            CookieBar.build(requireActivity()).setTitle("Preencha todos os campos").setMessage("Preencha todos os campos do formulário de registro para poder continuar")
+                    .setCookiePosition(CookieBar.TOP).setBackgroundColor(R.color.red).setDuration(4000).setIcon(R.drawable.ic_error).show();
             return;
         }
         AlertDialog alertDialog = viewModel.makeLoadingAlert(requireContext());
