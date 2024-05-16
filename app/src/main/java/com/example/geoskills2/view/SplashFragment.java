@@ -49,7 +49,7 @@ public class SplashFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared", getContext().MODE_PRIVATE);
         final boolean sliderShown = onSliderFinished();
 
-        new Handler().postDelayed(() -> {
+//        new Handler().postDelayed(() -> {
             sounds.setMusicEnabled(false);
             if (!sliderShown) {
                 Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_mainSliderFragment);
@@ -66,7 +66,7 @@ public class SplashFragment extends Fragment {
                     }
                 });
             }
-        }, 3000);
+//        }, 3000);
 
 
     }

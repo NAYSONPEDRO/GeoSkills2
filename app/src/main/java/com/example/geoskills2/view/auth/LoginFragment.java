@@ -1,8 +1,6 @@
 package com.example.geoskills2.view.auth;
 
 import android.app.AlertDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -72,18 +70,15 @@ public class LoginFragment extends Fragment{
                     .setCookiePosition(CookieBar.TOP).setBackgroundColor(R.color.red).setDuration(4000).setIcon(R.drawable.ic_error).show();
             return;
         }
-        ErrorData errorData = viewModel.loginUser(email, password);
-        if(errorData != null){
-            CookieBar.build(requireActivity()).setTitle(errorData.getTitle())
-                    .setMessage(errorData.getMessage())
-                    .setCookiePosition(CookieBar.TOP).setBackgroundColor(R.color.red).setDuration(4000).setIcon(R.drawable.ic_error).show();
-        }
+        viewModel.loginUser(email, password);
+
         AlertDialog alertDialog = viewModel.makeLoadingAlert(requireContext());
         alertDialog.show();
-        viewModel.getErrorInLogin().observe(getViewLifecycleOwner(), new Observer<ErrorData>() {
+        viewModel.getErrorInLoginOrsignIn().observe(getViewLifecycleOwner(), new Observer<ErrorData>() {
             @Override
             public void onChanged(ErrorData errorData) {
                 if(errorData != null){
+                    alertDialog.dismiss();
                     CookieBar.build(requireActivity()).setTitle(errorData.getTitle())
                             .setMessage(errorData.getMessage())
                             .setCookiePosition(CookieBar.TOP).setBackgroundColor(R.color.red).setDuration(4000).setIcon(R.drawable.ic_error).show();

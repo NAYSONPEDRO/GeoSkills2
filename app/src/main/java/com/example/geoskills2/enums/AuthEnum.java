@@ -1,7 +1,7 @@
 package com.example.geoskills2.enums;
 
-public enum FirestoreEnum {
-    COLECTION_USERS("users"),
+public enum AuthEnum {
+    COLLECTION_USERS("users"),
     NAME("name"),
     EMAIL("email"),
     POINTS("points"),
@@ -9,7 +9,7 @@ public enum FirestoreEnum {
 
     private final String value;
 
-    FirestoreEnum(String value) {
+    AuthEnum(String value) {
         this.value = value;
     }
 

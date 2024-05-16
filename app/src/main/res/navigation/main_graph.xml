@@ -120,6 +120,12 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             />
+        <action
+            android:id="@+id/action_homeFragment_to_quizGameFragment"
+            app:destination="@id/quizGameFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_coordinatesGameFragment"
+            app:destination="@id/coordinatesGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -156,4 +162,18 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             />
     </fragment>
+    <fragment
+        android:id="@+id/quizGameFragment"
+        android:name="com.example.geoskills2.view.QuizGameFragment"
+        android:label="fragment_quiz_game"
+        tools:layout="@layout/fragment_quiz_game" >
+        <action
+            android:id="@+id/action_quizGameFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/coordinatesGameFragment"
+        android:name="com.example.geoskills2.view.CoordinatesGameFragment"
+        android:label="fragment_coordinates_game"
+        tools:layout="@layout/fragment_coordinates_game" />
 </navigation>

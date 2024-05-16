@@ -9,8 +9,16 @@ import com.example.geoskills2.model.User;
 import com.example.geoskills2.view.auth.ErrorData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseAuthWebException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class AuthRepository {
@@ -68,40 +76,31 @@ public class AuthRepository {
     }
 
     public ErrorData errorHandling(Exception e) {
-        String[] firebaseAuthErrorMessages = {
-                "The email address is badly formatted.",
-                "The password is invalid or the user does not have a password.",
-                "The email address is already in use by another account.",
-                "The given password is invalid. [ Password should be at least 6 characters ]",
-                "The email address is badly formatted.",
-                "This operation is sensitive and requires recent authentication. Log in again before retrying this request.",
-                "This credential is for a different user.",
-                "An internal error has occurred. [ WEB_INTERNAL_ERROR ]",
-                "A network error (such as timeout, interrupted connection or unreachable host) has occurred."
-        };
-        String exception = e.getMessage();
-        assert exception != null : "Null excepition kk";
-        if (exception.contains(firebaseAuthErrorMessages[0])) {
+
+
+
+
+
+        if (e instanceof FirebaseAuthInvalidCredentialsException) {
             return new ErrorData("Endereço de e-mail mal formatado", "Por favor, verifique o formato do endereço de e-mail.");
-        } else if (exception.contains(firebaseAuthErrorMessages[1])) {
-            return new ErrorData("Senha inválida", "A senha é inválida ou o usuário não tem uma senha.");
-        } else if (exception.contains(firebaseAuthErrorMessages[2])) {
-            return new ErrorData("Endereço de e-mail em uso", "O endereço de e-mail já está em uso por outra conta.");
-        } else if (exception.contains(firebaseAuthErrorMessages[3])) {
-            return new ErrorData("Senha inválida", "A senha fornecida é inválida. A senha deve ter pelo menos 6 caracteres.");
-        } else if (exception.contains(firebaseAuthErrorMessages[4])) {
-            return new ErrorData("Endereço de e-mail mal formatado", "Por favor, verifique o formato do endereço de e-mail.");
-        } else if (exception.contains(firebaseAuthErrorMessages[5])) {
-            return new ErrorData("Operação sensível", "Esta operação requer autenticação recente. Faça login novamente antes de tentar esta solicitação.");
-        } else if (exception.contains(firebaseAuthErrorMessages[6])) {
-            return new ErrorData("Credencial para usuário diferente", "Esta credencial é para um usuário diferente.");
-        } else if (exception.contains(firebaseAuthErrorMessages[7])) {
-            return new ErrorData("Erro interno", "Ocorreu um erro interno.");
-        } else if (exception.contains(firebaseAuthErrorMessages[8])) {
-            return new ErrorData("Erro internet", "Verifique sua conexão com a internet.");
+        } else if (e instanceof FirebaseAuthInvalidUserException) {
+            return new ErrorData("Usuário inválido", "O usuário não existe ou foi desativado.");
+        } else if (e instanceof FirebaseAuthEmailException) {
+            return new ErrorData("Erro de e-mail", "Erro relacionado ao endereço de e-mail.");
+        } else if (e instanceof FirebaseAuthUserCollisionException) {
+            return new ErrorData("Conflito de usuário", "O endereço de e-mail já está em uso.");
+        } else if (e instanceof FirebaseAuthWeakPasswordException) {
+            return new ErrorData("Senha fraca", "A senha é muito fraca.");
+        } else if (e instanceof FirebaseAuthRecentLoginRequiredException) {
+            return new ErrorData("Login recente necessário", "É necessário fazer login novamente.");
+        } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+            return new ErrorData("Credenciais inválidas", "Credenciais inválidas fornecidas.");
+        } else if (e instanceof FirebaseAuthWebException) {
+            return new ErrorData("Erro interno da Web", "Erro interno relacionado à Web.");
+        } else if (e instanceof FirebaseNetworkException) {
+            return new ErrorData("Erro de rede", "Erro de rede, verifique sua conexão.");
         } else {
             return new ErrorData("Erro desconhecido", "Ocorreu um erro desconhecido.");
         }
-
     }
 }

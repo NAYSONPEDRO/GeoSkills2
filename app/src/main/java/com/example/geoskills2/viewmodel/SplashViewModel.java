@@ -32,7 +32,7 @@ public class SplashViewModel extends AndroidViewModel {
     public void getUserFromDb(){
         // Mover a fun getUserFromDb pra q, porque se ela ficar no MainSliderViewModel,  n vai dar pra verificar e o motivo é óbvio ( viewmodel é de lá, ou seja só vai chamar a fun lá)
         firestoreRepository.getUserOnDb(authRepository.getCurrentUserId(), new OnCompleteListener<DocumentSnapshot>() {
-            @Override
+            @Override// tem um erro nessa fun
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     if(task.getResult() != null){

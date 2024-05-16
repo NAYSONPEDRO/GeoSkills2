@@ -21,11 +21,7 @@ import com.example.geoskills2.view.auth.ErrorData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Objects;
@@ -35,7 +31,7 @@ public class AuthViewModel extends AndroidViewModel {
     private final AuthRepository authRepository = AuthRepository.getInstance();
 
     private final MutableLiveData<FirebaseUser> currentUserVM = new MutableLiveData<>();
-    private final MutableLiveData<ErrorData> errorInLogin = new MutableLiveData<>(null);
+    private final MutableLiveData<ErrorData> errorInLoginOrsignIn = new MutableLiveData<>(null);
 
     private final MutableLiveData<Boolean> sendedEmail = new MutableLiveData<>(false);
 
@@ -73,7 +69,7 @@ public class AuthViewModel extends AndroidViewModel {
                                             currentUserVM.postValue(authRepository.getCurrentUser().getValue());
                                         } else {
                                             Log.d("ERRO_REGISTER_USER", "Erro ao registrar usuário NO BANCO", task.getException());
-                                            errorInLogin.postValue(authRepository.errorHandling(Objects.requireNonNull(task.getException())));
+                                            errorInLoginOrsignIn.postValue(authRepository.errorHandling(Objects.requireNonNull(task.getException())));
                                         }
 
                                     }
@@ -94,22 +90,21 @@ public class AuthViewModel extends AndroidViewModel {
 
     }
 
-    public ErrorData loginUser(String email, String password) {
-        final ErrorData[] errorData = new ErrorData[1];
+    public void loginUser(String email, String password) {
+
         authRepository.loginUser(email, password, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     currentUserVM.postValue(authRepository.getAuth().getCurrentUser());
-                    errorData[0] = null;
                 } else {
                     Log.d("ERRO_LOGIN", "Erro ao fazer login", task.getException());
-                    errorData[0] = authRepository.errorHandling(Objects.requireNonNull(task.getException()));
+                    errorInLoginOrsignIn.postValue(authRepository.errorHandling(Objects.requireNonNull(task.getException())));
                 }
 
             }
         });
-        return errorData[0];
+
     }
 
     public void recoverPassword(String email) {
@@ -135,8 +130,8 @@ public class AuthViewModel extends AndroidViewModel {
         return sendedEmail;
     }
 
-    public MutableLiveData<ErrorData> getErrorInLogin() {
-        return errorInLogin;
+    public MutableLiveData<ErrorData> getErrorInLoginOrsignIn() {
+        return errorInLoginOrsignIn;
     }
 
     public String getUuid(){
